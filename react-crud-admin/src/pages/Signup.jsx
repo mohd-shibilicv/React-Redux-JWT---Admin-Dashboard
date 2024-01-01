@@ -1,39 +1,102 @@
-import React, { useState } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { useReducer } from "react";
 import { Link } from "react-router-dom";
 
-export default function Signup() {
-  const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+const initialState = {
+  formData: {},
+  error: false,
+  errorMessage: "",
+  loading: false,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_FORM_DATA":
+      return {
+        ...state,
+        formData: {
+          ...state.formData,
+          [action.payload.id]: action.payload.value,
+        },
+      };
+    case "SET_ERROR":
+      return { ...state, error: action.payload, errorMessage: action.errorMessage };
+    case "SET_LOADING":
+      return { ...state, loading: action.payload };
+    default:
+      return state;
+  }
+};
+
+function useForm(initialState) {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (e) => {
     e.preventDefault();
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+
+    if (id === "username") {
+      const specialChars = /[ !@#$%^&*(),.?":{}|<>]/;
+      if (specialChars.test(value) || value.length < 4) {
+        // display an error message
+        dispatch({ type: "SET_ERROR", payload: true, errorMessage: "Invalid username" });
+        return;
+      }
+      if (state.error) {
+        dispatch({ type: "SET_ERROR", payload: false });
+      }
+    }
+    if (id === "password") {
+      if (value.length < 8) {
+        // display an error message
+        dispatch({ type: "SET_ERROR", payload: true, errorMessage: "Password should be at least 8 characters long" });
+        return;
+      }
+      if (state.error) {
+        dispatch({ type: "SET_ERROR", payload: false });
+      }
+    }
+    dispatch({
+      type: "SET_FORM_DATA",
+      payload: { id: e.target.id, value: e.target.value },
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch({ type: "SET_LOADING", payload: true });
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(state.formData),
       });
       const data = await res.json();
-      setLoading(false);
+      dispatch({ type: "SET_LOADING", payload: false });
       if (data.success === false) {
-        setError(true);
+        dispatch({ type: "SET_ERROR", payload: true, errorMessage: "Something went wrong. try again!" });
         return;
       }
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      dispatch({ type: "SET_LOADING", payload: false });
+      throw error;
     }
   };
+
+  return {
+    formData: state.formData,
+    error: state.error,
+    errorMessage: state.errorMessage,
+    loading: state.loading,
+    handleChange,
+    handleSubmit,
+  };
+}
+
+export default function Signup() {
+  const { formData, error, errorMessage, loading, handleChange, handleSubmit } = useForm({});
 
   return (
     <>
@@ -49,7 +112,7 @@ export default function Signup() {
                 className="mt-2 rounded-lg bg-red-100 py-4 px-6 text-base text-red-700"
                 role="alert"
               >
-                Invalid credentials. try again!
+                {errorMessage}
               </div>
             )}
           </div>
