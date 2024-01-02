@@ -1,6 +1,6 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useReducer } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const initialState = {
   formData: {},
@@ -30,6 +30,7 @@ const reducer = (state, action) => {
 
 function useForm(initialState) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -79,6 +80,11 @@ function useForm(initialState) {
         dispatch({ type: "SET_ERROR", payload: true, errorMessage: "Something went wrong. try again!" });
         return;
       }
+      // toast.success('Account registered successfully!', {
+      //   position: toast.POSITION.TOP_RIGHT,
+      //   autoClose: 3000,
+      // });
+      navigate('/signin')
     } catch (error) {
       dispatch({ type: "SET_LOADING", payload: false });
       throw error;
