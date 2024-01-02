@@ -56,12 +56,14 @@ export const google = async (req, res, body) => {
         password: hashedPassword,
         profilePicture: req.body.photo,
       });
-      try {
-        newUser.save();
-        res.status(201).json({ message: "User created successfully!" });
-      } catch (error) {
-        next(error);
-      }
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      const { password: hashedPassword2, ...rest } = newUser._doc;
+      const expiryDate = new Date(Date.now() + 360000);
+      res
+        .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
+        .status(200)
+        .json(rest);
     }
   } catch (error) {
     next(error);
