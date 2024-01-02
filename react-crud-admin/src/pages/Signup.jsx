@@ -1,6 +1,7 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useReducer } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 const initialState = {
   formData: {},
@@ -188,6 +189,7 @@ export default function Signup() {
               <span>Sign Up</span>
             )}
           </Button>
+          <OAuth />
         </form>
       </div>
       <div className="flex justify-center p-3">

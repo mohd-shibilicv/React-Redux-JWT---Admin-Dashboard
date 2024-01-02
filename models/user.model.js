@@ -14,6 +14,10 @@ const userSceheme = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    profilePicture: {
+        type: String,
+        default: "https://th.bing.com/th/id/OIP.LONeYx52kcHaTmfxhp0dSgHaF2?w=210&h=180&c=7&r=0&o=5&pid=1.7",
     }
 }, {timestamps: true});
 
