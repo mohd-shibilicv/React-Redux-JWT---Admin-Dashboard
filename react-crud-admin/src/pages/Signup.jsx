@@ -171,8 +171,8 @@ export default function Signup() {
             </Link>
           </Label>
         </div> */}
-          <Button
-            className="border border-gray-500 transition ease-in-out text-gray-800 hover:bg-gray-800 hover:text-white hover:border-gray-800 disabled:cursor-not-allowed"
+          <button
+            className="border py-2 rounded-lg font-semibold border-gray-500 transition ease-in-out text-gray-800 hover:bg-gray-800 hover:text-white hover:border-gray-800 disabled:cursor-not-allowed"
             type="submit"
             disabled={loading ? true : false}
           >
@@ -188,7 +188,7 @@ export default function Signup() {
             ) : (
               <span>Sign Up</span>
             )}
-          </Button>
+          </button>
           <OAuth />
         </form>
       </div>

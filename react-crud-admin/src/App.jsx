@@ -8,6 +8,7 @@ import Profile from './pages/Profile'
 import Header from './components/Header'
 import PrivateRouter from './components/Redirects/PrivateRouter'
 import AuthenticatedRouter from './components/Redirects/AuthenticatedRouter'
+import ProfileUpdate from './pages/ProfileUpdate'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/signin" element={<AuthenticatedRouter><Signin /></AuthenticatedRouter>} />
         <Route path="/signup" element={<AuthenticatedRouter><Signup /></AuthenticatedRouter>} />
         <Route path="/profile" element={<PrivateRouter><Profile /></PrivateRouter>} />
+        <Route path="/update-profile" element={<PrivateRouter><ProfileUpdate /></PrivateRouter>} />
       </Routes>
     </Router>
   )

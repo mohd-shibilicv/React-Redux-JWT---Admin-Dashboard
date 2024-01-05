@@ -2,51 +2,10 @@ import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import { MdAlternateEmail } from "react-icons/md";
 import { Button } from "flowbite-react";
-import { useEffect, useRef, useState } from "react";
-import { app } from "../firebase";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
-  const fileRef = useRef(null);
-  const [image, setImage] = useState(undefined);
-  const [imagePercentage, setImagePercentage] = useState(0);
-  const [imageError, setImageError] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
-  const [formData, setFormData] = useState({});
-
-  useEffect(() => {
-    if (image) {
-      handleFileUpload(image);
-    }
-  }, [image]);
-
-  const handleFileUpload = async (image) => {
-    const storage = getStorage(app);
-    const fileName = new Date().getTime() + image.name;
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setImagePercentage(Math.round(progress));
-      },
-      (error) => {
-        setImageError(true);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormData({ ...formData, profilePicture: downloadURL });
-        });
-      }
-    );
-  };
 
   return (
     <>
@@ -58,39 +17,17 @@ export default function Profile() {
                 <div className="flex flex-wrap justify-center">
                   <div className="flex justify-center w-full">
                     <div className="relative cursor-pointer">
-                      <input
-                        type="file"
-                        ref={fileRef}
-                        hidden
-                        accept="image/*"
-                        onChange={(e) => setImage(e.target.files[0])}
-                      />
                       <img
-                        src={formData.profilePicture || currentUser.profilePicture}
-                        onClick={() => fileRef.current.click()}
+                        src={
+                          currentUser.profilePicture
+                        }
+                        // onClick={() => fileRef.current.click()}
                         className="dark:shadow-xl border-white dark:border-gray-800 rounded-full align-middle border-8 absolute -m-16 -ml-18 lg:-ml-16 max-w-[120px] max-h-[120px]"
                       />
                     </div>
                   </div>
                 </div>
-                <div className="text-center mt-14">
-                  <p>
-                    {imageError ? (
-                      <span className="text-red-700 font-xs font-bold">
-                        Error uploading image (max file size: 2MB)
-                      </span>
-                    ) : imagePercentage > 0 && imagePercentage < 100 ? (
-                      <span className="text-slate-700 font-xs font-bold">{`Uploading: ${imagePercentage}%`}</span>
-                    ) : (
-                      imagePercentage === 100 && (
-                        <span className="text-green-700 font-xs font-bold">
-                          Image uploaded successfully ✅
-                        </span>
-                      )
-                    )}
-                  </p>
-                </div>
-                <div className="mt-5 text-center">
+                <div className="mt-16 text-center">
                   <h3 className="mb-1 text-2xl font-bold leading-normal text-gray-700 dark:text-gray-300">
                     <div className="flex justify-center gap-1 items-center">
                       <MdAlternateEmail size={18} />
@@ -201,9 +138,11 @@ export default function Profile() {
                 <div className="pt-6 mx-6 mt-6 text-center border-t border-gray-200 dark:border-gray-700/50">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full px-6 flex justify-center gap-5">
-                      <Button outline gradientDuoTone="purpleToBlue">
-                        Update
-                      </Button>
+                      <Link to="/update-profile">
+                        <Button outline gradientDuoTone="purpleToBlue">
+                          Update
+                        </Button>
+                      </Link>
                       <Button outline gradientDuoTone="pinkToOrange">
                         Delete Account
                       </Button>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -98,8 +98,8 @@ export default function Signin() {
             </Link>
           </Label>
         </div> */}
-          <Button
-            className="border border-gray-500 transition ease-in-out text-gray-800 hover:bg-gray-800 hover:text-white hover:border-gray-800 disabled:cursor-not-allowed"
+          <button
+            className="border py-2 rounded-lg border-gray-500 hover:bg-gray-800 bg-white transition ease-in-out text-gray-900 hover:text-white hover:border-gray-800 disabled:cursor-not-allowed"
             type="submit"
             disabled={loading ? true : false}
           >
@@ -113,9 +113,9 @@ export default function Signin() {
                 </span>
               </div>
             ) : (
-              <span>Sign In</span>
+              <span className="font-semibold">Sign In</span>
             )}
-          </Button>
+          </button>
           <OAuth />
         </form>
       </div>
