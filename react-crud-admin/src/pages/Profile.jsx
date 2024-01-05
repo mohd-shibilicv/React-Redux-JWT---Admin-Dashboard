@@ -1,11 +1,47 @@
 import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import { MdAlternateEmail } from "react-icons/md";
-import { Button } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+} from "../redux/user/userSlice";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { useState } from "react";
 
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleOpen = () => setOpen(!open);
+
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess());
+      navigate("/");
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
 
   return (
     <>
@@ -18,9 +54,7 @@ export default function Profile() {
                   <div className="flex justify-center w-full">
                     <div className="relative cursor-pointer">
                       <img
-                        src={
-                          currentUser.profilePicture
-                        }
+                        src={currentUser.profilePicture}
                         // onClick={() => fileRef.current.click()}
                         className="dark:shadow-xl border-white dark:border-gray-800 rounded-full align-middle border-8 absolute -m-16 -ml-18 lg:-ml-16 max-w-[120px] max-h-[120px]"
                       />
@@ -139,13 +173,47 @@ export default function Profile() {
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full px-6 flex justify-center gap-5">
                       <Link to="/update-profile">
-                        <Button outline gradientDuoTone="purpleToBlue">
+                        <Button className="border hover:border-indigo-900 hover:bg-white hover:text-indigo-900">
                           Update
                         </Button>
                       </Link>
-                      <Button outline gradientDuoTone="pinkToOrange">
+                      <Button
+                      className="border hover:border-red-900 hover:bg-white hover:text-red-600"
+                        onClick={handleOpen}
+                      >
                         Delete Account
                       </Button>
+                      <Dialog
+                        open={open}
+                        color="grey"
+                        handler={handleOpen}
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0.9, y: -100 },
+                        }}
+                      >
+                        <DialogHeader>Are sure ?</DialogHeader>
+                        <DialogBody>
+                          The action will delete all records and information related with your acoount and this action is not recoverable.
+                        </DialogBody>
+                        <DialogFooter>
+                          <Button
+                            variant="text"
+                            color="green"
+                            onClick={handleOpen}
+                            className="mr-1"
+                          >
+                            <span>Cancel</span>
+                          </Button>
+                          <Button
+                            variant="gradient"
+                            color="red"
+                            onClick={handleDelete}
+                          >
+                            <span>Confirm</span>
+                          </Button>
+                        </DialogFooter>
+                      </Dialog>
                     </div>
                   </div>
                 </div>

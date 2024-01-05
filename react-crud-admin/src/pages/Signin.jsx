@@ -54,7 +54,7 @@ export default function Signin() {
           onSubmit={handleSubmit}
         >
           <div>
-            {error && (
+            {errorMessage && (
               <div
                 className="mt-2 rounded-lg bg-red-100 py-4 px-6 text-base text-red-700"
                 role="alert"

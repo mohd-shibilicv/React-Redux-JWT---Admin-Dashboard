@@ -31,7 +31,7 @@ export default function Header() {
                 </Link>
                 <Link
                   to="/signin"
-                  className="text-gray-800 dark:text-white hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none"
+                  className="text-gray-800 font-semibold dark:text-white hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none"
                 >
                   Sign out
                 </Link>
@@ -98,7 +98,7 @@ export default function Header() {
               <li>
                 <Link
                   to="/"
-                  className="block text-gray-700 rounded p-2 hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white lg:bg-transparent lg:text-primary-700 dark:text-white"
+                  className="block text-gray-700 font-semibold rounded p-2 hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white lg:bg-transparent lg:text-primary-700 dark:text-white"
                   aria-current="page"
                 >
                   Home
@@ -107,7 +107,7 @@ export default function Header() {
               <li>
                 <Link
                   to="/about"
-                  className="block p-2 text-gray-700 border-b hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded border-gray-100 lg:border-0 lg:hover:text-primary-700 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block p-2 text-gray-700 font-semibold border-b hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded border-gray-100 lg:border-0 lg:hover:text-primary-700 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   About
                 </Link>
@@ -115,17 +115,9 @@ export default function Header() {
               <li>
                 <Link
                   to="/profile"
-                  className="block p-2 text-gray-700 border-b hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded border-gray-100 lg:border-0 lg:hover:text-primary-700 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block p-2 text-gray-700 font-semibold border-b hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded border-gray-100 lg:border-0 lg:hover:text-primary-700 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Profile
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/"
-                  className="block p-2 text-gray-700 border-b hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded border-gray-100 lg:border-0 lg:hover:text-primary-700 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Dashboard
                 </Link>
               </li>
             </ul>
