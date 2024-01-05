@@ -2,10 +2,21 @@ import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { signOut } from "../redux/user/userSlice";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentUser } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  const handleSignout = async () => {
+    try {
+      await fetch('/api/auth/signout');
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <header>
@@ -29,12 +40,12 @@ export default function Header() {
                     <img src={currentUser.profilePicture} alt="Profile" className="h-10 w-10 rounded-full" />
                   </div>
                 </Link>
-                <Link
-                  to="/signin"
-                  className="text-gray-800 font-semibold dark:text-white hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none"
+                <button
+                  onClick={handleSignout}
+                  className="text-gray-800 font-semibold dark:text-white hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none"
                 >
                   Sign out
-                </Link>
+                </button>
               </>
             ) : (
               <>
