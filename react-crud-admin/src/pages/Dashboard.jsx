@@ -11,9 +11,6 @@ import {
   CardBody,
   Chip,
   CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
   Avatar,
   IconButton,
   Tooltip,
@@ -234,7 +231,6 @@ export default function Dashboard() {
                       Username
                     </Typography>
                     <Input
-                      type=""
                       id="username"
                       label="Username"
                       size="lg"
