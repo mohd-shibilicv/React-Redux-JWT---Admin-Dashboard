@@ -11,6 +11,9 @@ import {
   CardBody,
   Chip,
   CardFooter,
+  Tabs,
+  TabsHeader,
+  Tab,
   Avatar,
   IconButton,
   Tooltip,
@@ -92,10 +95,6 @@ export default function Dashboard() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleEditModalChange = (e) => {
-    setFormData({ ...EditFormData, [e.target.id]: e.target.value });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -122,30 +121,6 @@ export default function Dashboard() {
     } catch (error) {
       dispatch({ type: "SET_LOADING", payload: false });
       throw error;
-    }
-  };
-
-  const handleEditModalSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
-        return;
-      }
-      dispatch(updateUserSuccess(data));
-      const updatedUsers = await fetchAllUsers();
-      setUsers(updatedUsers);
-    } catch (error) {
-      dispatch(updateUserFailure(error));
     }
   };
 
@@ -231,6 +206,7 @@ export default function Dashboard() {
                       Username
                     </Typography>
                     <Input
+                      type=""
                       id="username"
                       label="Username"
                       size="lg"
