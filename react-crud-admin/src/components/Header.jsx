@@ -6,17 +6,17 @@ import { signOut } from "../redux/user/userSlice";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleSignout = async () => {
     try {
-      await fetch('/api/auth/signout');
+      await fetch("/api/auth/signout");
       dispatch(signOut());
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <header>
@@ -35,9 +35,13 @@ export default function Header() {
           <div className="flex items-center lg:order-2">
             {currentUser ? (
               <>
-                <Link to='/profile'>
+                <Link to="/profile">
                   <div className="mr-3 cursor-pointer">
-                    <img src={currentUser.profilePicture} alt="Profile" className="h-10 w-10 rounded-full" />
+                    <img
+                      src={currentUser.profilePicture}
+                      alt="Profile"
+                      className="h-10 w-10 rounded-full"
+                    />
                   </div>
                 </Link>
                 <button
@@ -131,6 +135,16 @@ export default function Header() {
                   Profile
                 </Link>
               </li>
+              {currentUser?.isAdmin && (
+                <li>
+                  <Link
+                    to="/dashboard"
+                    className="block p-2 text-gray-700 font-semibold border-b hover:bg-gray-700 transition delay-105 ease-in-out hover:text-white rounded border-gray-100 lg:border-0 lg:hover:text-primary-700 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

@@ -9,6 +9,8 @@ import Header from './components/Header'
 import PrivateRouter from './components/Redirects/PrivateRouter'
 import AuthenticatedRouter from './components/Redirects/AuthenticatedRouter'
 import ProfileUpdate from './pages/ProfileUpdate'
+import Error404 from './pages/Error404'
+import Dashboard from './pages/Dashboard.jsx'
 
 const App = () => {
   return (
@@ -19,8 +21,10 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/signin" element={<AuthenticatedRouter><Signin /></AuthenticatedRouter>} />
         <Route path="/signup" element={<AuthenticatedRouter><Signup /></AuthenticatedRouter>} />
+        <Route path="/dashboard" element={<PrivateRouter><Dashboard /></PrivateRouter>} />
         <Route path="/profile" element={<PrivateRouter><Profile /></PrivateRouter>} />
         <Route path="/update-profile" element={<PrivateRouter><ProfileUpdate /></PrivateRouter>} />
+        <Route path='*' element={<Error404 />} />
       </Routes>
     </Router>
   )

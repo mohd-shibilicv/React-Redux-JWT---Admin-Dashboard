@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Footer from "../components/Footer";
 import { MdAlternateEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import {
   deleteUserStart,
   deleteUserSuccess,

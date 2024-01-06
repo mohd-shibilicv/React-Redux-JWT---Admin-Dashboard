@@ -81,10 +81,6 @@ function useForm(initialState) {
         dispatch({ type: "SET_ERROR", payload: true, errorMessage: "Something went wrong. try again!" });
         return;
       }
-      // toast.success('Account registered successfully!', {
-      //   position: toast.POSITION.TOP_RIGHT,
-      //   autoClose: 3000,
-      // });
       navigate('/signin')
     } catch (error) {
       dispatch({ type: "SET_LOADING", payload: false });
